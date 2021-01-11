@@ -2,6 +2,14 @@ version: '3.8'
 services:
   enforcer:
     image: 'local/enforcer_grpc:latest'
+    environment:
+      ENVIRONMENT: 'development'
+      SERVICE: 'enforcer'
+      PROJECT_ID: 'unset'
+      TRACING_ENABLED: 'false'
+      TRACING_SAMPLER_MODE: never
+      METRICS_ENABLED: 'false'
+      GRPC_PORT: '9000'
 
   gateway:
-    build: 'gateway:latest'
+    image: 'gateway:latest'
