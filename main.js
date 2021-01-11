@@ -16,10 +16,20 @@ function on_submit() {
         form.elements['subject'].value,
         form.elements['object'].value,
         form.elements['action'].value
-    ]
+    ];
+
+    const results = document.getElementById("results");
+    const row = results.insertRow(0);
+    const s = row.insertCell(0);
+    const o = row.insertCell(1);
+    const a = row.insertCell(2);
+    const r = row.insertCell(3);
+    s.innerHTML = req[0];
+    o.innerHTML = req[1];
+    a.innerHTML = req[2];
     return enforce('um/bundles', req).then(
-        resp => console.log(resp),
-        err => console.error(err)
+        resp => r.innerHTML = resp,
+        err => r.innerHTML = err.message
     );
 }
 
