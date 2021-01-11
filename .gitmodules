@@ -1,0 +1,3 @@
+[submodule "scheming"]
+	path = scheming
+	url = ssh://git@github.com/GlobalWebIndex/scheming.git
