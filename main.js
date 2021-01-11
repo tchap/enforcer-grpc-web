@@ -9,3 +9,18 @@ function enforce(enforcer_name, request) {
     });
     return client.enforce(req);
 }
+
+function on_submit() {
+    const form = document.getElementById("request");
+    const req = [
+        form.elements['subject'].value,
+        form.elements['object'].value,
+        form.elements['action'].value
+    ]
+    return enforce('um/bundles', req).then(
+        resp => console.log(resp),
+        err => console.error(err)
+    );
+}
+
+module.exports = {on_submit};
