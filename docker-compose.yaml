@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  enforcer:
+    image: 'local/enforcer_grpc:latest'
+
+  gateway:
+    build: 'gateway:latest'
