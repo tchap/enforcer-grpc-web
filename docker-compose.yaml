@@ -10,13 +10,21 @@ services:
       TRACING_SAMPLER_MODE: never
       METRICS_ENABLED: 'false'
       GRPC_PORT: '9000'
+    expose: ['9000']
 
   gateway:
     image: 'gateway:latest'
-    depends_on: ['redis']
+    depends_on: ['redis', 'enforcer']
+    ports:
+      - '8000:8000'
     environment:
       PROXY_SECRET: MkaOJHbvA8gSylgvLdJaUMCn0Ul9oetmrFKwHSkG5MNPCdECpdQjrJe1qEEl064
       REDIS_ADDR: 'redis:6379'
+      CORS_ALLOWED_METHODS: GET,POST,PUT,PATCH,DELETE,OPTIONS
+      CORS_ALLOWED_HEADERS: Authorization,Content-Type,DNT,X-Requested-With,X-User-Agent,X-Grpc-Web
+      CORS_EXPOSED_HEADERS: X-Gateway-UUID,Retry-After,X-RateLimit-Limit,X-RateLimit-Remaining,X-RateLimit-Reset,X-User-Agent,X-Grpc-Web
+      CORS_MAX_AGE: 600
+      CORS_ALLOWED_ORIGINS: "http://localhost:8080"
 
   redis:
     image: 'redis:latest'

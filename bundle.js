@@ -538,13 +538,12 @@ goog.object.extend(exports, proto.um.auth.v1);
 },{"google-protobuf":4}],3:[function(require,module,exports){
 const api = require('./gen/scheming/um/auth/v1/enforcer_api_grpc_web_pb');
 
-var client = new api.EnforcerAPIPromiseClient('http://localhost:8080');
+var client = new api.EnforcerAPIPromiseClient('http://localhost:8000');
 
 function enforce(enforcer_name, request) {
-    const req = new api.EnforceRequest({
-        enforcer_name,
-        request,
-    });
+    const req = new api.EnforceRequest();
+    req.setEnforcerName(enforcer_name);
+    req.setRequestList(request);
     return client.enforce(req);
 }
 
@@ -566,7 +565,7 @@ function on_submit() {
     o.innerHTML = req[1];
     a.innerHTML = req[2];
     return enforce('um/bundles', req).then(
-        resp => r.innerHTML = resp,
+        resp => r.innerHTML = (resp.getAllowed() ? 'allowed' : 'denied'),
         err => r.innerHTML = err.message
     );
 }
