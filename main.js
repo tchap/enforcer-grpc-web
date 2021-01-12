@@ -17,19 +17,19 @@ function on_submit() {
         form.elements['action'].value
     ];
 
+    return enforce('um/bundles', req).then(
+        resp => append_result(req, (resp.getAllowed() ? 'allowed' : 'denied')),
+        err => append_result(req, err.message)
+    );
+}
+
+function append_result(request, result) {
     const results = document.getElementById("results");
     const row = results.insertRow(0);
-    const s = row.insertCell(0);
-    const o = row.insertCell(1);
-    const a = row.insertCell(2);
-    const r = row.insertCell(3);
-    s.innerHTML = req[0];
-    o.innerHTML = req[1];
-    a.innerHTML = req[2];
-    return enforce('um/bundles', req).then(
-        resp => r.innerHTML = (resp.getAllowed() ? 'allowed' : 'denied'),
-        err => r.innerHTML = err.message
-    );
+    row.insertCell(0).innerHTML = request[0]
+    row.insertCell(1).innerHTML = request[1]
+    row.insertCell(2).innerHTML = request[2]
+    row.insertCell(3).innerHTML = result;
 }
 
 module.exports = {on_submit};
