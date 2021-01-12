@@ -2,6 +2,9 @@ const api = require('./gen/scheming/um/auth/v1/enforcer_api_grpc_web_pb');
 
 const client = new api.EnforcerAPIPromiseClient('http://localhost:8000');
 
+const enableDevTools = window.__GRPCWEB_DEVTOOLS__ || (() => {});
+enableDevTools([client]);
+
 function enforce(enforcer_name, request) {
     const req = new api.EnforceRequest();
     req.setEnforcerName(enforcer_name);
